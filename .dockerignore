@@ -1,0 +1,14 @@
+docker/
+src/
+node_modules/
+.git/
+.gitignore
+.gitmodules
+.gitattributes
+.editorconfig
+.eslintrc
+.eslintignore
+.prettierignore
+.prettierrc
+.stylelintrc
+.stylelintignore
