@@ -31,7 +31,9 @@ export class AuthService {
       username: dto.username
     });
     
-    return this._generateToken(user);
+    return {
+      message: "Sign-up is completed!!!"
+    };
   }
 
   async login(dto: LoginAuthDto) {
