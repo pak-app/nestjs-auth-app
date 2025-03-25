@@ -5,14 +5,16 @@ services:
   mongodb:
     image: mongo
     container_name: mongodb
-    # ports:
-    #   - "27017:27017"
+    ports:
+      - "27017:27017"
     volumes:
       - db_data:/data/db
     # networks:
     #   - authApp
-    env_file:
-      - .env
+    # env_file: "./database.env"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: qwer1234
 
 volumes:
   db_data:
