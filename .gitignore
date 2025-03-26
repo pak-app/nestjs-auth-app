@@ -139,3 +139,6 @@ dist
 
 # .vscode directory
 .vscode
+
+# Custom .env files
+database.env
