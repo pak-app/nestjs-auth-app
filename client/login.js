@@ -1,27 +1,50 @@
+const readline = require('readline');
 const axios = require('axios');
 
-async function loginAndTest() {
-    try {
-        // Step 1: Send POST request to /auth/login to get the JWT token
-        const loginResponse = await axios.post('http://localhost:3000/auth/login', {
-            username: 'your-username', // Replace with actual username
-            password: 'your-password', // Replace with actual password
-        });
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-        const token = loginResponse.data.token; // Assuming the token is in the `token` field
-        console.log('JWT Token:', token);
-
-        // Step 2: Use the token to send a request to /auth/test
-        const testResponse = await axios.get('http://localhost:3000/auth/test', {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        console.log('Response from /auth/test:', testResponse.data);
-    } catch (error) {
-        console.error('Error:', error.response ? error.response.data : error.message);
-    }
+function ask(question) {
+  return new Promise((resolve) => rl.question(question, resolve));
 }
 
-loginAndTest().catch(console.error);
+async function run() {
+  try {
+    const identifier = await ask('Enter your email or username: ');
+    const password = await ask('Enter your password: ');
+
+    console.log('\n🔐 Logging in...');
+
+    // Step 1: Login
+    const loginRes = await axios.post('http://localhost:3000/auth/login', {
+      identifier,
+      password,
+    });
+
+    const token = loginRes.data.access_token;
+    console.log('✅ Login successful. Token received:\n', token);
+
+    // Step 2: Test Auth
+    console.log('\n🔎 Testing authorization...');
+    const testRes = await axios.get('http://localhost:3000/auth/test', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    console.log('✅ Authorization test result:');
+    console.log(testRes.data);
+  } catch (error) {
+    if (error.response) {
+      console.error('❌ Error:', error.response.data);
+    } else {
+      console.error('❌ Unexpected Error:', error.message);
+    }
+  } finally {
+    rl.close();
+  }
+}
+
+run();
