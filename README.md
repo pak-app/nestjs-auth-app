@@ -109,7 +109,8 @@ Protected route — requires `Authorization: Bearer <token>`
 Use the built-in CLI script to test login + authorization:
 
 ```bash
-node auth-client.js
+node client/sign-up.js # Sign-up
+node client/login.js # Login and test authorization
 ```
 
 ✔️ Prompts for credentials  
@@ -120,11 +121,33 @@ node auth-client.js
 ## 🧱 Folder Structure
 
 ```
-src/
-├── auth/         # Login, register, JWT
-├── users/        # User schema + DB logic
-├── common/       # (optional: guards, interceptors)
-├── main.ts       # Entry point
+nestjs-auth-api/
+├── client/                     # (Optional) CLI tester or frontend
+├── dist/                       # Compiled JS (after build)
+├── node_modules/               # Installed dependencies
+├── src/
+│   ├── auth/                   # Auth module (login, register, JWT, guards)
+│   ├── user/                   # User module (schema, service)
+│   ├── app.controller.ts       # Main app controller
+│   ├── app.module.ts           # Root module
+│   ├── app.service.ts          # App-wide service
+│   └── main.ts                 # Entry point
+├── test/                       # Test cases (e.g., e2e or unit)
+├── .dockerignore               # Docker exclusions
+├── .env                        # App environment variables
+├── .gitignore                  # Git exclusions
+├── .prettierrc                 # Prettier config
+├── database.env                # (Optional) database-only env vars
+├── docker-compose.yml          # Compose services (app + db)
+├── Dockerfile                  # Docker build config
+├── eslint.config.mjs           # ESLint configuration
+├── nest-cli.json               # NestJS config (source dir, etc.)
+├── package.json                # Project metadata & scripts
+├── package-lock.json           # Dependency lockfile
+├── README.md                   # 📄 Project documentation
+├── tsconfig.build.json         # TypeScript build config
+└── tsconfig.json               # General TypeScript config
+
 ```
 
 ---
@@ -154,6 +177,12 @@ src/
 - [ ] Email verification on register
 - [ ] Password reset workflow
 - [ ] Swagger documentation
+
+---
+
+## Development Zone
+
+The idea behind the docker is run, develop and deploy without installing anything on your local machine. So this section is on development to prepare a development environment to develop, debug, test and deploy a app without any local setup.
 
 ---
 
