@@ -1,20 +1,36 @@
 # version: "3.8"
-
 name: authApp
 services:
   mongodb:
     image: mongo
+    
     container_name: mongodb
+    
     ports:
       - "27017:27017"
+    
     volumes:
       - db_data:/data/db
-    # networks:
-    #   - authApp
-    # env_file: "./database.env"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: qwer1234
+
+    env_file:
+      - ./database.env
+
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: root
+    #   MONGO_INITDB_ROOT_PASSWORD: qwer1234
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: auth-app-backend-prod:0.1.0
+    container_name: authApp
+    
+    ports:
+      - '3000:3000'
+    
+    env_file:
+      - '.env'
 
 volumes:
   db_data:
