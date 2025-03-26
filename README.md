@@ -1,75 +1,163 @@
-# NestJS Authentication and Authorization Application
+# 🔐 NestJS Authentication API
 
-A application for authentication and authorization application with NestJS framework with dummy UI. You can use this application on your own application to handle user authentication and authorization. This application uses JWT method for authentication and authorization.
+A modern and secure **authentication API** built with [NestJS](https://nestjs.com/), MongoDB, and JWT — Dockerized for scalable deployment.
 
-## Installation
+---
 
-To use this application with dummy interface, you should donwload *node* and *MongoDB*.
+## 📦 Features
 
-First of all, clone project from Github.
+- ✅ **User Registration** with email & username
+- ✅ **Secure Login** using hashed passwords (bcrypt)
+- ✅ **JWT Authentication**
+- ✅ **Protected Routes** with `@UseGuards`
+- ✅ **Modular Structure** (`auth`, `users`, etc.)
+- ✅ **Environment Variables via .env**
+- ✅ **MongoDB containerized via Docker**
+- ✅ **Validation with DTOs & class-validator**
+- ✅ **TypeScript clean codebase**
 
-```bash
-git clone https://github.com/pak-app/nestjs-auth-app.git
-```
+---
 
-### Backend Installation(node)
+## 🚀 Tech Stack
 
-There is guide to install [*NodeJS*](https://nodejs.org/en/download) for your own OS.
+- **NestJS** + **TypeScript**
+- **MongoDB** (via Docker)
+- **Mongoose**
+- **JWT** for access tokens
+- **bcrypt** for password hashing
+- **Docker / Docker Compose** for containerization
+- **class-validator** for input validation
 
-After installing *NodeJS* you can verify `node` and `npm` using these commands:
+---
 
-```bash
-node -v # verify node
-npm -v # verify npm
-```
+## 🐳 Docker Setup
 
-#### Run application
-
-To run this application there is two methods:
-
-* On local machine
-* Docker container
-
-**On local machine:** Do each step to run node app on local machine.
-
-1. Installing dependencies:
-
-   ```bash
-   cd nestjs-auth-app
-   npm i
-   ```
-
-2. Run app: Use this command to run node application.
-
-   ```bash
-   npm run start:dev
-   ```
-
-### Database(MongoDB)
-
-You can install MongoDB from official site in your local OS or you can using MongoDB Docker container to run it. For second method you should install `docker` and `docker compose` plugin to use this database. It is suggested to run MongoDB on docker container.
-
-**Docker:** After `docker` and `docker compose` installation you can run the database via `docker-compose.yaml` file, it is automatically download images and run the services.
-
-There is two important environment variables to authenticate user to access database.
-
-* `MONGO_INITDB_ROOT_USERNAME`: Username of user
-* `MONGO_INITDB_ROOT_PASSWORD`: Password of user
-
-They set on `docker-compose.yaml` file and you can customize it.
-
-**Run container:** To run only the database you can use this command:
-
-*For Linux:*
+### 1. 🧪 Development
 
 ```bash
-sudo docker compose up mongodb -d
+docker compose up --build
 ```
 
-*For Windows:*
+Your backend will be live at: [http://localhost:3000](http://localhost:3000)
+
+### 2. 🏁 Docker Services
+
+| Service   | Description     | Port |
+|-----------|------------------|------|
+| app       | NestJS API       | 3000 |
+| mongodb   | MongoDB database | 27017 |
+
+---
+
+## 🔧 Environment Variables (`.env`)
+
+```env
+# MongoDB
+MONGO_INITDB_ROOT_USERNAME=poorya
+MONGO_INITDB_ROOT_PASSWORD=qwer1234
+DATABASE_NAME=authApp
+DATABASE_PORT=27017
+DATABASE_CONTAINER_NAME=localhost
+
+# JWT
+JWT_SECRET=supersecretkey123
+```
+
+> You can customize these in `.env`
+
+---
+
+## 🛠️ API Endpoints
+
+### `POST /auth/register`
+
+```json
+{
+  "email": "user@example.com",
+  "username": "myuser",
+  "password": "strongpassword"
+}
+```
+
+---
+
+### `POST /auth/login`
+
+```json
+{
+  "identifier": "user@example.com", // or "myuser"
+  "password": "strongpassword"
+}
+```
+
+✔️ Returns a `JWT` access token.
+
+---
+
+### `GET /auth/test`
+
+Protected route — requires `Authorization: Bearer <token>`
+
+✔️ Returns current user info if valid
+
+---
+
+## 🧪 Local Testing
+
+### CLI Auth Tester
+
+Use the built-in CLI script to test login + authorization:
 
 ```bash
-docker-compose mongodb up -d
+node auth-client.js
 ```
 
-**Database port and host:** If you running auth application(node application), be carefull use correct **database URI** inside `.env` file. There is some comment guide to use correct URI on `.env` file.
+✔️ Prompts for credentials  
+✔️ Authenticates and calls protected route
+
+---
+
+## 🧱 Folder Structure
+
+```
+src/
+├── auth/         # Login, register, JWT
+├── users/        # User schema + DB logic
+├── common/       # (optional: guards, interceptors)
+├── main.ts       # Entry point
+```
+
+---
+
+## 🔒 Security Highlights
+
+- Bcrypt password hashing
+- JWT-based stateless auth
+- Route protection using `JwtAuthGuard`
+- DTO-based validation with `forbidNonWhitelisted` rules
+- `.env` file for sensitive config (not committed)
+
+---
+
+## 🐛 Troubleshooting
+
+- **Docker cannot connect to DB:** check your `.env` values and Docker networking
+- **Cannot access app at `localhost:3000`?** Ensure `app.listen(3000, { host: '0.0.0.0' })` in `main.ts`
+- **Validation not working?** Add global `ValidationPipe` in `main.ts`
+
+---
+
+## 💡 Future Enhancements
+
+- [ ] Refresh token support
+- [ ] Role-based access control (RBAC)
+- [ ] Email verification on register
+- [ ] Password reset workflow
+- [ ] Swagger documentation
+
+---
+
+## ✨ Author
+
+Made with ❤️ by [Poorya](https://github.com/your-github-username)  
+Open for collaboration, feedback, and PRs!

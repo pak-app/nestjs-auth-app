@@ -24,7 +24,7 @@ services:
       context: .
       dockerfile: Dockerfile
     image: auth-app-backend-prod:0.1.0
-    container_name: authApp
+    container_name: app
     
     ports:
       - '3000:3000'
