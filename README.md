@@ -75,7 +75,8 @@ JWT_SECRET=supersecretkey123
 {
   "email": "user@example.com",
   "username": "myuser",
-  "password": "strongpassword"
+  "password": "strongpassword",
+  "fullName": "Your_full_name"
 }
 ```
 
@@ -85,7 +86,7 @@ JWT_SECRET=supersecretkey123
 
 ```json
 {
-  "identifier": "user@example.com", // or "myuser"
+  "identifier": "user@example.com", // identify by your email or username
   "password": "strongpassword"
 }
 ```
