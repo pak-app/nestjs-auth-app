@@ -63,7 +63,7 @@ They set on `docker-compose.yaml` file and you can customize it.
 *For Linux:*
 
 ```bash
-sudo docker compose mongodb up -d
+sudo docker compose up mongodb -d
 ```
 
 *For Windows:*
